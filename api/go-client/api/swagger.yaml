@@ -1,0 +1,350 @@
+---
+swagger: "2.0"
+info:
+  description: "Blockchain"
+  version: "1.0.0"
+  title: "基于区块链的供应链金融平台"
+  termsOfService: "https://github.com/Sevice-Computing"
+  contact:
+    email: "chris-ju@qq.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+- name: "user"
+  description: "Operations about user"
+- name: "account"
+  description: "Operations about account"
+- name: "admin"
+  description: "Oprations about admin"
+schemes:
+- "http"
+paths:
+  /api/account/:
+    get:
+      tags:
+      - "account"
+      summary: "Get all account"
+      operationId: "getAllArticle"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Account"
+        "406":
+          description: "Authentication failed"
+    post:
+      tags:
+      - "account"
+      summary: "Add a new account"
+      operationId: "addAccount"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "The body of account."
+        required: true
+        schema:
+          $ref: "#/definitions/Account"
+        x-exportParamName: "Body"
+      responses:
+        "200":
+          description: "Successful"
+        "403":
+          description: "No permission"
+        "405":
+          description: "Invalid input"
+        "406":
+          description: "Authentication failed"
+  /api/account/{accountID}:
+    get:
+      tags:
+      - "account"
+      summary: "Get account by ID"
+      operationId: "getAccountByID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "accountID"
+        in: "path"
+        description: "The id of account."
+        required: true
+        type: "integer"
+        x-exportParamName: "AccountID"
+      responses:
+        "200":
+          description: "Successful"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Account"
+        "403":
+          description: "No permission"
+    put:
+      tags:
+      - "account"
+      summary: "Transfer account"
+      operationId: "transferArticle"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "accountID"
+        in: "path"
+        description: "The id of account."
+        required: true
+        type: "integer"
+        x-exportParamName: "AccountID"
+      - in: "body"
+        name: "body"
+        description: "The body of account."
+        required: true
+        schema:
+          $ref: "#/definitions/Account"
+        x-exportParamName: "Body"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Article not found"
+        "405":
+          description: "Validation exception"
+    delete:
+      tags:
+      - "account"
+      summary: "Pay for account"
+      operationId: "deleteAccount"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "accountID"
+        in: "path"
+        description: "The id of account."
+        required: true
+        type: "integer"
+        x-exportParamName: "AccountID"
+      responses:
+        "200":
+          description: "Successfully"
+        "400":
+          description: "Invalid ID supplied"
+        "403":
+          description: "No permission"
+        "404":
+          description: "Account not found"
+        "405":
+          description: "Validation exception"
+  /api/user/:
+    get:
+      tags:
+      - "user"
+      summary: "Query user"
+      description: "This can only be done by the logged in user."
+      operationId: "queryUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "User login method"
+        required: true
+        type: "string"
+        x-exportParamName: "Username"
+      - name: "password"
+        in: "query"
+        description: "User login method"
+        required: true
+        type: "string"
+        x-exportParamName: "Password"
+      responses:
+        "200":
+          description: "Successful operation"
+        "403":
+          description: "Username or password wrong"
+    post:
+      tags:
+      - "user"
+      summary: "Create user"
+      description: "This can only be done by the logged in user."
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+        x-exportParamName: "Body"
+      responses:
+        "200":
+          description: "Successful operation"
+        "403":
+          description: "Username repeat"
+    put:
+      tags:
+      - "user"
+      summary: "Update user"
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Update user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+        x-exportParamName: "Body"
+      responses:
+        "200":
+          description: "Successful operation"
+        "403":
+          description: "No permission"
+  /admin/login:
+    post:
+      tags:
+      - "admin"
+      summary: "Admin login"
+      operationId: "adminLogin"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/Admin"
+        x-exportParamName: "Body"
+      responses:
+        "200":
+          description: "Successful operation"
+        "403":
+          description: "Username or password is wrong"
+  /admin/api/company/:
+    get:
+      tags:
+      - "admin"
+      summary: "Get companys"
+      operationId: "getCompanysByAdmin"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Company"
+        "500":
+          description: "Internal error"
+    post:
+      tags:
+      - "admin"
+      summary: "Set Company"
+      operationId: "setCompany"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Set Company"
+        required: true
+        schema:
+          $ref: "#/definitions/Company"
+        x-exportParamName: "Body"
+      responses:
+        "200":
+          description: "Successful operation"
+        "500":
+          description: "Internal error"
+  /admin/api/account/:
+    get:
+      tags:
+      - "admin"
+      summary: "Get accounts"
+      operationId: "getAccountsByAdmin"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Account"
+        "500":
+          description: "Internal error"
+    delete:
+      tags:
+      - "admin"
+      summary: "Delete account"
+      operationId: "deleteAccountByAdmin"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "accountID"
+        in: "query"
+        description: "Delete account"
+        required: true
+        type: "integer"
+        x-exportParamName: "AccountID"
+      responses:
+        "200":
+          description: "Successful operation"
+        "500":
+          description: "Internal error"
+definitions:
+  User:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+      company:
+        $ref: "#/definitions/Company"
+  Account:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      money:
+        type: "integer"
+      ACompany:
+        type: "integer"
+      BCompany:
+        type: "integer"
+    example:
+      ACompany: 1
+      money: 6
+      BCompany: 5
+      id: 0
+  Admin:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+  Company:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      trusty:
+        type: "boolean"
+      money:
+        type: "integer"
+    example:
+      money: 6
+      name: "name"
+      id: 0
+      trusty: true
