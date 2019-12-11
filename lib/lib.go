@@ -4,8 +4,13 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
+	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
+	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
@@ -50,10 +55,53 @@ func GetID(path string) int32 {
 	return int32(id)
 }
 
-//GetDID method
-func GetDID(path string) (int32, int32) {
-	p := strings.Split(path, "/")
-	articleid, _ := strconv.Atoi(p[len(p)-2])
-	userid, _ := strconv.Atoi(p[len(p)-1])
-	return int32(articleid), int32(userid)
+//GetRandom method
+func GetRandom() int32 {
+	rand.Seed(int64(time.Now().UnixNano()))
+	return int32(rand.Int31n(65536))
+}
+
+// CallMethod method
+func CallMethod(item string) []byte {
+	cmd := exec.Command("sh", "-c", "cd python-sdk && python3 console.py call Company 0x1f494c56c3ad1e6738f3500d19499cd3541160ea "+item)
+	outfile, err := os.Create("out")
+	if err != nil {
+		panic(err)
+	}
+	defer outfile.Close()
+	cmd.Stdout = outfile
+
+	err = cmd.Start()
+	if err != nil {
+		panic(err)
+	}
+	cmd.Wait()
+
+	b, err := ioutil.ReadFile("out")
+	if err != nil {
+		fmt.Print(err)
+	}
+	return b
+}
+
+// SendtxMethod method
+func SendtxMethod(item string) string {
+	cmd := exec.Command("sh", "-c", "cd python-sdk && python3 console.py sendtx Company 0x1f494c56c3ad1e6738f3500d19499cd3541160ea "+item)
+	outfile, err := os.Create("out")
+	if err != nil {
+		panic(err)
+	}
+	defer outfile.Close()
+	cmd.Stdout = outfile
+
+	err = cmd.Start()
+	if err != nil {
+		panic(err)
+	}
+	cmd.Wait()
+	b, err := ioutil.ReadFile("out")
+	if err != nil {
+		fmt.Print(err)
+	}
+	return string(b)
 }

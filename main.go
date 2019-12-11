@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Chris-Ju/FISCO-BCOS-DEMO/router"
+	"github.com/Chris-Ju/FISCO-BCOS-Demo/router"
 )
 
 func main() {
