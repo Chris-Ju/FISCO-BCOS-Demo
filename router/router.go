@@ -20,20 +20,18 @@ type Route struct {
 // Routes type define
 type Routes []Route
 
+// NewRouter method, generate server
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc
 		handler = lib.Logger(handler, route.Name)
-
-		router.
-			Methods(route.Method).
+		router.Methods(route.Method).
 			Path(route.Pattern).
 			Name(route.Name).
 			Handler(handler)
 	}
-
 	return router
 }
 
@@ -61,17 +59,17 @@ var routes = Routes{
 	},
 
 	Route{
-		"GetAllArticle",
+		"GetAllAccount",
 		strings.ToUpper("Get"),
 		"/api/account/",
-		controller.GetAllArticle,
+		controller.GetAllAccount,
 	},
 
 	Route{
-		"TransferArticle",
+		"TransferAccount",
 		strings.ToUpper("Put"),
 		"/api/account/{accountID}",
-		controller.TransferArticle,
+		controller.TransferAccount,
 	},
 
 	Route{
@@ -128,5 +126,12 @@ var routes = Routes{
 		strings.ToUpper("Put"),
 		"/api/user/",
 		controller.UpdateUser,
+	},
+
+	Route{
+		"Financing",
+		strings.ToUpper("Post"),
+		"/api/account/bank/{accountID}",
+		controller.Financing,
 	},
 }
