@@ -71,6 +71,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"FinancingByID",
+		strings.ToUpper("Post"),
+		"/api/account/bank/{accountID}",
+		FinancingByID,
+	},
+
+	Route{
 		"GetAccountByID",
 		strings.ToUpper("Get"),
 		"/api/account/{accountID}",
@@ -78,17 +85,17 @@ var routes = Routes{
 	},
 
 	Route{
-		"GetAllArticle",
+		"GetAllAccount",
 		strings.ToUpper("Get"),
 		"/api/account/",
-		GetAllArticle,
+		GetAllAccount,
 	},
 
 	Route{
-		"TransferArticle",
+		"TransferAccount",
 		strings.ToUpper("Put"),
 		"/api/account/{accountID}",
-		TransferArticle,
+		TransferAccount,
 	},
 
 	Route{

@@ -24,11 +24,17 @@ paths:
     get:
       tags:
       - "account"
-      summary: "Get all account"
-      operationId: "getAllArticle"
+      summary: "Get all accounts"
+      operationId: "getAllAccount"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "The id of company."
+        required: true
+        type: "integer"
+        x-exportParamName: "Id"
       responses:
         "200":
           description: "Successful"
@@ -90,7 +96,7 @@ paths:
       tags:
       - "account"
       summary: "Transfer account"
-      operationId: "transferArticle"
+      operationId: "transferAccount"
       produces:
       - "application/json"
       parameters:
@@ -139,6 +145,36 @@ paths:
           description: "Account not found"
         "405":
           description: "Validation exception"
+  /api/account/bank/{accountID}:
+    post:
+      tags:
+      - "account"
+      summary: "Financing"
+      operationId: "financingByID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "accountID"
+        in: "path"
+        description: "The id of account."
+        required: true
+        type: "integer"
+        x-exportParamName: "AccountID"
+      - name: "companyID"
+        in: "query"
+        description: "The id of company."
+        required: true
+        type: "integer"
+        x-exportParamName: "CompanyID"
+      responses:
+        "200":
+          description: "Successful"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Account"
+        "403":
+          description: "No permission"
   /api/user/:
     get:
       tags:

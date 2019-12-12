@@ -23,9 +23,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AccountApi* | [**AddAccount**](docs/AccountApi.md#addaccount) | **Post** /api/account/ | Add a new account
 *AccountApi* | [**DeleteAccount**](docs/AccountApi.md#deleteaccount) | **Delete** /api/account/{accountID} | Pay for account
+*AccountApi* | [**FinancingByID**](docs/AccountApi.md#financingbyid) | **Post** /api/account/bank/{accountID} | Financing
 *AccountApi* | [**GetAccountByID**](docs/AccountApi.md#getaccountbyid) | **Get** /api/account/{accountID} | Get account by ID
-*AccountApi* | [**GetAllArticle**](docs/AccountApi.md#getallarticle) | **Get** /api/account/ | Get all account
-*AccountApi* | [**TransferArticle**](docs/AccountApi.md#transferarticle) | **Put** /api/account/{accountID} | Transfer account
+*AccountApi* | [**GetAllAccount**](docs/AccountApi.md#getallaccount) | **Get** /api/account/ | Get all accounts
+*AccountApi* | [**TransferAccount**](docs/AccountApi.md#transferaccount) | **Put** /api/account/{accountID} | Transfer account
 *AdminApi* | [**AdminLogin**](docs/AdminApi.md#adminlogin) | **Post** /admin/login | Admin login
 *AdminApi* | [**DeleteAccountByAdmin**](docs/AdminApi.md#deleteaccountbyadmin) | **Delete** /admin/api/account/ | Delete account
 *AdminApi* | [**GetAccountsByAdmin**](docs/AdminApi.md#getaccountsbyadmin) | **Get** /admin/api/account/ | Get accounts

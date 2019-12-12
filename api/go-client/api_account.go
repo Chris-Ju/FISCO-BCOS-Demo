@@ -168,6 +168,96 @@ func (a *AccountApiService) DeleteAccount(ctx context.Context, accountID int32) 
 }
 
 /* 
+AccountApiService Financing
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param accountID The id of account.
+ * @param companyID The id of company.
+
+@return []Account
+*/
+func (a *AccountApiService) FinancingByID(ctx context.Context, accountID int32, companyID int32) ([]Account, *http.Response, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		localVarReturnValue []Account
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/api/account/bank/{accountID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"accountID"+"}", fmt.Sprintf("%v", accountID), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	localVarQueryParams.Add("companyID", parameterToString(companyID, ""))
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		if err == nil { 
+			return localVarReturnValue, localVarHttpResponse, err
+		}
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		if localVarHttpResponse.StatusCode == 200 {
+			var v []Account
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+				if err != nil {
+					newErr.error = err.Error()
+					return localVarReturnValue, localVarHttpResponse, newErr
+				}
+				newErr.model = v
+				return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHttpResponse, nil
+}
+
+/* 
 AccountApiService Get account by ID
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param accountID The id of account.
@@ -256,12 +346,13 @@ func (a *AccountApiService) GetAccountByID(ctx context.Context, accountID int32)
 }
 
 /* 
-AccountApiService Get all account
+AccountApiService Get all accounts
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id The id of company.
 
 @return []Account
 */
-func (a *AccountApiService) GetAllArticle(ctx context.Context) ([]Account, *http.Response, error) {
+func (a *AccountApiService) GetAllAccount(ctx context.Context, id int32) ([]Account, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -277,6 +368,7 @@ func (a *AccountApiService) GetAllArticle(ctx context.Context) ([]Account, *http
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("id", parameterToString(id, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -349,7 +441,7 @@ AccountApiService Transfer account
 
 
 */
-func (a *AccountApiService) TransferArticle(ctx context.Context, accountID int32, body Account) (*http.Response, error) {
+func (a *AccountApiService) TransferAccount(ctx context.Context, accountID int32, body Account) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}

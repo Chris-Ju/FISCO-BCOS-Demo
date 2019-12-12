@@ -6,9 +6,10 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddAccount**](AccountApi.md#AddAccount) | **Post** /api/account/ | Add a new account
 [**DeleteAccount**](AccountApi.md#DeleteAccount) | **Delete** /api/account/{accountID} | Pay for account
+[**FinancingByID**](AccountApi.md#FinancingByID) | **Post** /api/account/bank/{accountID} | Financing
 [**GetAccountByID**](AccountApi.md#GetAccountByID) | **Get** /api/account/{accountID} | Get account by ID
-[**GetAllArticle**](AccountApi.md#GetAllArticle) | **Get** /api/account/ | Get all account
-[**TransferArticle**](AccountApi.md#TransferArticle) | **Put** /api/account/{accountID} | Transfer account
+[**GetAllAccount**](AccountApi.md#GetAllAccount) | **Get** /api/account/ | Get all accounts
+[**TransferAccount**](AccountApi.md#TransferAccount) | **Put** /api/account/{accountID} | Transfer account
 
 
 # **AddAccount**
@@ -63,6 +64,33 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **FinancingByID**
+> []Account FinancingByID(ctx, accountID, companyID)
+Financing
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **accountID** | **int32**| The id of account. | 
+  **companyID** | **int32**| The id of company. | 
+
+### Return type
+
+[**[]Account**](Account.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **GetAccountByID**
 > []Account GetAccountByID(ctx, accountID)
 Get account by ID
@@ -89,12 +117,16 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GetAllArticle**
-> []Account GetAllArticle(ctx, )
-Get all account
+# **GetAllAccount**
+> []Account GetAllAccount(ctx, id)
+Get all accounts
 
 ### Required Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **id** | **int32**| The id of company. | 
 
 ### Return type
 
@@ -111,8 +143,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **TransferArticle**
-> TransferArticle(ctx, accountID, body)
+# **TransferAccount**
+> TransferAccount(ctx, accountID, body)
 Transfer account
 
 ### Required Parameters
