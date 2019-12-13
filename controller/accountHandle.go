@@ -16,11 +16,12 @@ func AddAccount(w http.ResponseWriter, r *http.Request) {
 	ACompany, _ := strconv.Atoi(r.PostFormValue("ACompany"))
 	BCompany, _ := strconv.Atoi(r.PostFormValue("BCompany"))
 
-	account := model.Account{}
-	account.ID = randomID
-	account.Money = int32(money)
-	account.ACompany.ID = int32(ACompany)
-	account.BCompany.ID = int32(BCompany)
+	account := model.Account{
+		ID:       randomID,
+		Money:    int32(money),
+		ACompany: model.Company{ID: int32(ACompany)},
+		BCompany: model.Company{ID: int32(BCompany)},
+	}
 
 	flag := model.AddAccount(account)
 
@@ -60,7 +61,6 @@ func GetAccountByID(w http.ResponseWriter, r *http.Request) {
 func GetAllAccount(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(r.URL.Query()["id"][0])
 	accounts := model.GetAccountByCompanyID(int32(id))
-
 	buf, _ := json.Marshal(accounts)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)

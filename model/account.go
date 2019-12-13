@@ -28,8 +28,10 @@ func DeleteAccount(id int32) bool {
 	lib.SendtxMethod(str)
 	str = fmt.Sprintf("updateCompany %d \"%s\" %d %d", account.ACompany.ID, account.ACompany.Name, account.ACompany.Trusty, account.ACompany.Money-account.Money)
 	lib.SendtxMethod(str)
-	str = fmt.Sprintf("updateCompany %d \"%s\" %d %d", account.BCompany.ID, account.BCompany.Name, account.BCompany.Trusty, account.BCompany.Money+account.Money)
-	lib.SendtxMethod(str)
+	if account.BCompany.ID != 1000 {
+		str = fmt.Sprintf("updateCompany %d \"%s\" %d %d", account.BCompany.ID, account.BCompany.Name, account.BCompany.Trusty, account.BCompany.Money+account.Money)
+		lib.SendtxMethod(str)
+	}
 	return true
 }
 
